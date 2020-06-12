@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:quiz/screen/about.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../dashboard.dart';
@@ -25,7 +26,7 @@ class _LoginDesktopState extends State<LoginMobile> {
         isLoad = true;
       });
       http.Response response =
-      await http.post("https://xtoinfinity.tech/quiz/php/login.php", body: {
+          await http.post("https://xtoinfinity.tech/quiz/php/login.php", body: {
         'usn': usn.toUpperCase(),
         'password': password,
       });
@@ -35,7 +36,7 @@ class _LoginDesktopState extends State<LoginMobile> {
       if (response.body.toString() == 'no;') {
         AlertDialog alert = AlertDialog(
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           title: Text("Invalid login credentials",
               style: GoogleFonts.poppins(
                   color: Colors.black, fontWeight: FontWeight.w500)),
@@ -60,7 +61,9 @@ class _LoginDesktopState extends State<LoginMobile> {
           },
         );
       } else {
-        final userJson = json.decode(response.body.toString().substring(0,response.body.toString().length-1));
+        final userJson = json.decode(response.body
+            .toString()
+            .substring(0, response.body.toString().length - 1));
         final userData = userJson['user'];
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('name', userData[0]['name'].toString());
@@ -89,7 +92,7 @@ class _LoginDesktopState extends State<LoginMobile> {
               Navigator.of(context).pop();
             },
             child:
-            Text("Okay!", style: GoogleFonts.poppins(color: Colors.white)),
+                Text("Okay!", style: GoogleFonts.poppins(color: Colors.white)),
           ),
         ],
       );
@@ -109,108 +112,145 @@ class _LoginDesktopState extends State<LoginMobile> {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       body: Center(
-        child: isLoad?CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).accentColor),) :
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Image.asset("assets/images/logomed.png", height: _mediaQuery.height*0.1,),
-            Card(
-              shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-              elevation: 8,
-              child: Container(
-                width: _mediaQuery.width * 0.8,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      color: Theme.of(context).accentColor,
-                      padding: EdgeInsets.symmetric(vertical: 30),
-                      alignment: Alignment.center,
-                      child: Text(
-                        "LOGIN",
-                        style: GoogleFonts.poppins(
-                            color: Colors.white,
-                            fontSize: 24,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+        child: isLoad
+            ? CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(
+                    Theme.of(context).accentColor),
+              )
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Image.asset(
+                    "assets/images/logomed.png",
+                    height: _mediaQuery.height * 0.1,
+                  ),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
+                    elevation: 8,
+                    child: Container(
+                      width: _mediaQuery.width * 0.8,
                       child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          SizedBox(
-                            width: 200,
-                            child: TextField(
-                              decoration: InputDecoration(hintText: "USN"),
-                              cursorColor: Theme.of(context).accentColor,
-                              onChanged: (val) {
-                                usn = val;
-                              },
-                            ),
-                          ),
-                          SizedBox(
-                            width: 200,
-                            child: TextField(
-                              obscureText: true,
-                              decoration: InputDecoration(hintText: "Password"),
-                              cursorColor: Theme.of(context).accentColor,
-                              onChanged: (val) {
-                                password = val;
-                              },
-                            ),
-                          ),
-                          SizedBox(
-                            height: 30,
-                          ),
-                          RaisedButton(
-                            child: Text("SUBMIT",
-                                style: GoogleFonts.poppins(color: Colors.white)),
+                          Container(
                             color: Theme.of(context).accentColor,
-                            onPressed: () {
-                              _checkLogin();
-                            },
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(
-                              style: DefaultTextStyle.of(context).style,
-                              children: <TextSpan>[
-                                TextSpan(
-                                  text: "* ",
+                            padding: EdgeInsets.symmetric(
+                                vertical: 30, horizontal: 10),
+                            alignment: Alignment.center,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "LOGIN",
                                   style: GoogleFonts.poppins(
-                                      color: Theme.of(context).accentColor),
+                                    color: Colors.white,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
-                                TextSpan(
-                                  text: "Login credentials are same as that of SMVITM app",
-                                  style: GoogleFonts.poppins(
-                                      color: Colors.black, fontWeight: FontWeight.w300, fontSize: 10),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.2,
+                                ),
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.help,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pushNamed(AboutScreen.routeName);
+                                  },
                                 ),
                               ],
                             ),
                           ),
-                          FlatButton(
-                            onPressed: () {
-                              Navigator.of(context)
-                                  .pushNamed(ForgotPasswordScreen.routeName);
-                            },
-                            child: Text("Forgot Password",
-                                style: GoogleFonts.poppins(color: Theme.of(context).accentColor)),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 30, horizontal: 20),
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  width: 200,
+                                  child: TextField(
+                                    decoration:
+                                        InputDecoration(hintText: "USN"),
+                                    cursorColor: Theme.of(context).accentColor,
+                                    onChanged: (val) {
+                                      usn = val;
+                                    },
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 200,
+                                  child: TextField(
+                                    obscureText: true,
+                                    decoration:
+                                        InputDecoration(hintText: "Password"),
+                                    cursorColor: Theme.of(context).accentColor,
+                                    onChanged: (val) {
+                                      password = val;
+                                    },
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 30,
+                                ),
+                                RaisedButton(
+                                  child: Text("SUBMIT",
+                                      style: GoogleFonts.poppins(
+                                          color: Colors.white)),
+                                  color: Theme.of(context).accentColor,
+                                  onPressed: () {
+                                    _checkLogin();
+                                  },
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                RichText(
+                                  textAlign: TextAlign.center,
+                                  text: TextSpan(
+                                    style: DefaultTextStyle.of(context).style,
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: "* ",
+                                        style: GoogleFonts.poppins(
+                                            color:
+                                                Theme.of(context).accentColor),
+                                      ),
+                                      TextSpan(
+                                        text:
+                                            "Login credentials are same as that of SMVITM app",
+                                        style: GoogleFonts.poppins(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w300,
+                                            fontSize: 10),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                FlatButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pushNamed(
+                                        ForgotPasswordScreen.routeName);
+                                  },
+                                  child: Text("Forgot Password",
+                                      style: GoogleFonts.poppins(
+                                          color:
+                                              Theme.of(context).accentColor)),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
       ),
     );
   }
 }
-

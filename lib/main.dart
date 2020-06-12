@@ -10,9 +10,11 @@ import 'package:quiz/screen/leaderboard.dart';
 import 'package:quiz/screen/login.dart';
 import 'package:quiz/screen/quiz.dart';
 import 'package:quiz/screen/rules.dart';
+import 'package:quiz/screen/schedule.dart';
 import 'package:quiz/screen/selectQuiz.dart';
 import 'package:quiz/screen/splash.dart';
 import 'package:quiz/screen/userProfile.dart';
+import 'package:quiz/screen/welcomeScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -34,7 +36,7 @@ class MyApp extends StatelessWidget {
           accentColor: Color(0xff3BC0B0),
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: SplashScreen(),
+        home: WelcomeScreen(),
         routes: {
           DashboardScreen.routeName: (ctx) => DashboardScreen(),
           ForgotPasswordScreen.routeName: (ctx) => ForgotPasswordScreen(),
@@ -48,6 +50,8 @@ class MyApp extends StatelessWidget {
           LeaderBoardScreen.routeName: (ctx) => LeaderBoardScreen(),
           UserProfileScreen.routeName: (ctx) => UserProfileScreen(),
           AboutScreen.routeName: (ctx) => AboutScreen(),
+          ScheduleScreen.routeName: (ctx) => ScheduleScreen(),
+          WelcomeScreen.routeName: (ctx) => WelcomeScreen(),
         },
       ),
     );

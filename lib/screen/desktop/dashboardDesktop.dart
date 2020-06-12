@@ -7,6 +7,7 @@ import 'package:quiz/screen/about.dart';
 import 'package:quiz/screen/fetch.dart';
 import 'package:quiz/screen/leaderboard.dart';
 import 'package:quiz/screen/rules.dart';
+import 'package:quiz/screen/schedule.dart';
 import 'package:quiz/screen/selectQuiz.dart';
 import 'package:quiz/screen/userProfile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -280,7 +281,10 @@ class _DashboardDesktopState extends State<DashboardDesktop> {
                             color: Colors.transparent,
                             child: InkWell(
                               hoverColor: Color(0x333BC0B0),
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.of(context)
+                                    .pushNamed(ScheduleScreen.routeName);
+                              },
                               child: Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: _mediaQuery.width * 0.03,
@@ -295,7 +299,7 @@ class _DashboardDesktopState extends State<DashboardDesktop> {
                                       size: _mediaQuery.width * 0.05,
                                     ),
                                     AutoSizeText(
-                                      "UPCOMING EVENTS",
+                                      "EVENT SCHEDULE",
                                       group: myGroup,
                                       style: GoogleFonts.nunitoSans(
                                           fontWeight: FontWeight.w700,

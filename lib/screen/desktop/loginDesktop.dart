@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:quiz/screen/about.dart';
 import 'package:quiz/screen/dashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -117,10 +118,13 @@ class _LoginDesktopState extends State<LoginDesktop> {
                     Theme.of(context).accentColor),
               )
             : Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Image.asset("assets/images/logomed.png", height: _mediaQuery.height*0.1,),
-                Card(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Image.asset(
+                    "assets/images/logomed.png",
+                    height: _mediaQuery.height * 0.1,
+                  ),
+                  Card(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15)),
                     elevation: 8,
@@ -131,14 +135,35 @@ class _LoginDesktopState extends State<LoginDesktop> {
                           Container(
                             color: Theme.of(context).accentColor,
                             width: _mediaQuery.width * 0.5,
-                            padding: EdgeInsets.symmetric(vertical: 30),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 30, horizontal: 10),
                             alignment: Alignment.center,
-                            child: Text(
-                              "LOGIN",
-                              style: GoogleFonts.poppins(
-                                  color: Colors.white,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w600),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "LOGIN",
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.18,
+                                ),
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.help,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pushNamed(AboutScreen.routeName);
+                                  },
+                                ),
+                              ],
                             ),
                           ),
                           Padding(
@@ -148,7 +173,8 @@ class _LoginDesktopState extends State<LoginDesktop> {
                                 SizedBox(
                                   width: 200,
                                   child: TextField(
-                                    decoration: InputDecoration(hintText: "USN"),
+                                    decoration:
+                                        InputDecoration(hintText: "USN"),
                                     cursorColor: Theme.of(context).accentColor,
                                     onChanged: (val) {
                                       usn = val;
@@ -172,8 +198,8 @@ class _LoginDesktopState extends State<LoginDesktop> {
                                 ),
                                 RaisedButton(
                                   child: Text("SUBMIT",
-                                      style:
-                                          GoogleFonts.poppins(color: Colors.white)),
+                                      style: GoogleFonts.poppins(
+                                          color: Colors.white)),
                                   color: Theme.of(context).accentColor,
                                   onPressed: () {
                                     _checkLogin();
@@ -189,24 +215,30 @@ class _LoginDesktopState extends State<LoginDesktop> {
                                       TextSpan(
                                         text: "* ",
                                         style: GoogleFonts.poppins(
-                                            color: Theme.of(context).accentColor),
+                                            color:
+                                                Theme.of(context).accentColor),
                                       ),
                                       TextSpan(
-                                        text: "Login credentials are same as that of SMVITM app",
+                                        text:
+                                            "Login credentials are same as that of SMVITM app",
                                         style: GoogleFonts.poppins(
-                                            color: Colors.black, fontWeight: FontWeight.w300, fontSize: 12),
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w300,
+                                            fontSize: 12),
                                       ),
                                     ],
                                   ),
                                 ),
                                 FlatButton(
                                   onPressed: () {
-                                    Navigator.of(context)
-                                        .pushNamed(ForgotPasswordScreen.routeName);
+                                    Navigator.of(context).pushNamed(
+                                        ForgotPasswordScreen.routeName);
                                   },
-                                  child: Text("Forgot Password",
-                                      style: GoogleFonts.poppins(
-                                          color: Theme.of(context).accentColor),),
+                                  child: Text(
+                                    "Forgot Password",
+                                    style: GoogleFonts.poppins(
+                                        color: Theme.of(context).accentColor),
+                                  ),
                                 ),
                               ],
                             ),
@@ -215,8 +247,8 @@ class _LoginDesktopState extends State<LoginDesktop> {
                       ),
                     ),
                   ),
-              ],
-            ),
+                ],
+              ),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quiz/screen/desktop/aboutDesktop.dart';
+import 'package:quiz/screen/mobile/aboutMobile.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class AboutScreen extends StatefulWidget {
@@ -18,7 +19,7 @@ class _AboutScreenState extends State<AboutScreen> {
         return AboutDesktop();
       }
       if (sizingInformation.deviceScreenType == DeviceScreenType.mobile) {
-        return AboutDesktop();
+        return AboutMobile();
       }
       return AboutDesktop();
     }));

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:quiz/screen/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,6 +14,9 @@ class UserProfileDesktop extends StatefulWidget {
 
 class _UserProfileDesktopState extends State<UserProfileDesktop> {
   String name, usn, password, profilePic;
+  final _formKey = GlobalKey<FormState>();
+  var _password = '';
+  var _cPassword = '';
 
   Future getSP() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -131,6 +135,221 @@ class _UserProfileDesktopState extends State<UserProfileDesktop> {
     return p;
   }
 
+  void _logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('name');
+    Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+  }
+
+  void _trySubmit() {
+    final isValid = _formKey.currentState.validate();
+    FocusScope.of(context).unfocus();
+    if (isValid) {
+      _formKey.currentState.save();
+    }
+    if ((_password != _cPassword) && isValid) {
+      print('error');
+      Navigator.of(context).pop();
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return _msgDialog('Password and Confirm password does not match.');
+          });
+    } else if ((_password == _cPassword) && isValid) {
+      Navigator.of(context).pop();
+      _updatePassword(_password, usn);
+    }
+  }
+
+  Future _updatePassword(String password, String usn) async {
+    print(password + usn);
+    http.Response response = await http.post(
+        'https://xtoinfinity.tech/quiz/php/updatePassword.php',
+        body: {'usn': usn, 'password': password});
+    print(response.body.toString());
+    if (response.body.toString() == 'no;') {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return _msgDialog('Failed to update the password. Try again.');
+          });
+    } else if (response.body.toString() == 'success;') {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return _msgDialog('Password Changed Successfully');
+          });
+    } else {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return _msgDialog('An error occurred while updating the password.');
+          });
+    }
+  }
+
+  Widget _msgDialog(String msg) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    return Center(
+      child: Card(
+        child: Container(
+          width: width * 0.4,
+          height: height * 0.3,
+          color: Colors.white,
+          padding: EdgeInsets.all(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              AutoSizeText(
+                msg,
+                style: GoogleFonts.poppins(
+                  letterSpacing: 1,
+                  color: Colors.teal,
+                  fontSize: 16,
+                ),
+              ),
+              SizedBox(
+                height: height * 0.02,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  height: height * 0.06,
+                  width: width * 0.1,
+                  decoration: BoxDecoration(
+                    color: Colors.teal,
+                  ),
+                  child: Center(
+                    child: AutoSizeText(
+                      'OK',
+                      style: GoogleFonts.poppins(
+                        letterSpacing: 1,
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _editPassword() {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(10),
+        child: Card(
+          child: Container(
+            width: width * 0.4,
+            height: height * 0.6,
+            color: Colors.white,
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        AutoSizeText(
+                          'Change Password',
+                          maxLines: 1,
+                          style: GoogleFonts.poppins(
+                            letterSpacing: 2,
+                            color: Colors.teal,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          icon: Icon(Icons.cancel),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: height * 0.02,
+                    ),
+                    TextFormField(
+                      validator: (value) {
+                        if (value.isEmpty || value.length < 4) {
+                          return 'Password must be atleast 4 charecters long';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(labelText: 'New Password'),
+                      obscureText: true,
+                      onSaved: (value) {
+                        _password = value;
+                      },
+                    ),
+                    SizedBox(
+                      height: height * 0.05,
+                    ),
+                    TextFormField(
+                      validator: (value) {
+                        if (value.isEmpty || value.length < 4) {
+                          return 'Password must be atleast 4 charecters long';
+                        }
+                        return null;
+                      },
+                      decoration:
+                          InputDecoration(labelText: 'Confirm Password'),
+                      obscureText: true,
+                      onSaved: (value) {
+                        _cPassword = value;
+                      },
+                    ),
+                    SizedBox(
+                      height: height * 0.05,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        _trySubmit();
+                        //Navigator.of(context).pop();
+                      },
+                      child: Container(
+                        width: width * 0.5,
+                        height: height * 0.08,
+                        decoration: BoxDecoration(
+                          color: Colors.teal,
+                        ),
+                        child: Center(
+                          child: AutoSizeText(
+                            'SUBMIT',
+                            style: GoogleFonts.poppins(
+                              letterSpacing: 1,
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -148,41 +367,92 @@ class _UserProfileDesktopState extends State<UserProfileDesktop> {
           margin: EdgeInsets.all(20),
           padding: EdgeInsets.all(20),
           height: height,
-          width: width * 0.5,
+          width: width * 0.7,
           color: Colors.white,
           child: Column(
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(profilePic.toString()),
-                    radius: 40,
-                    backgroundColor: Colors.teal,
-                  ),
-                  SizedBox(
-                    width: width * 0.02,
-                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AutoSizeText(
                         name.toString(),
                         style: GoogleFonts.poppins(
-                            letterSpacing: 1,
-                            color: Colors.blueGrey[900],
-                            fontSize: 18),
+                            letterSpacing: 2,
+                            color: Colors.teal,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold),
                       ),
                       AutoSizeText(
                         usn.toString(),
                         style: GoogleFonts.poppins(
-                            letterSpacing: 1,
-                            color: Colors.blueGrey[900],
-                            fontSize: 14),
+                          letterSpacing: 1,
+                          color: Colors.blueGrey[900],
+                          fontSize: 18,
+                        ),
                       ),
-                      AutoSizeText(
-                        'Change Password',
-                        style: GoogleFonts.poppins(
-                            letterSpacing: 1, color: Colors.teal, fontSize: 10),
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return _editPassword();
+                              });
+                        },
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.edit,
+                              color: Colors.teal,
+                              size: height * 0.03,
+                            ),
+                            SizedBox(
+                              width: height * 0.01,
+                            ),
+                            AutoSizeText(
+                              'Password',
+                              style: GoogleFonts.poppins(
+                                letterSpacing: 1,
+                                color: Colors.teal,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: height * 0.01,
+                      ),
+                      GestureDetector(
+                        onTap: _logout,
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.exit_to_app,
+                              color: Colors.teal,
+                              size: height * 0.03,
+                            ),
+                            SizedBox(
+                              width: height * 0.01,
+                            ),
+                            AutoSizeText(
+                              'Logout',
+                              style: GoogleFonts.poppins(
+                                letterSpacing: 1,
+                                color: Colors.teal,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

@@ -5,6 +5,8 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quiz/screen/about.dart';
 import 'package:quiz/screen/rules.dart';
+import 'package:quiz/screen/schedule.dart';
+import 'package:quiz/screen/userProfile.dart';
 
 import '../leaderboard.dart';
 import '../selectQuiz.dart';
@@ -146,7 +148,10 @@ class _DashboardMobileState extends State<DashboardMobile> {
                     Navigator.of(context)
                         .pushNamed(LeaderBoardScreen.routeName);
                   }),
-                  _getMiniCard("PROFILE", AntDesign.user, () {}),
+                  _getMiniCard("PROFILE", AntDesign.user, () {
+                    Navigator.of(context)
+                        .pushNamed(UserProfileScreen.routeName);
+                  }),
                 ],
               ),
             ),
@@ -158,7 +163,9 @@ class _DashboardMobileState extends State<DashboardMobile> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _getMiniCard("UPCOMING\nEVENTS", AntDesign.calendar, () {}),
+                  _getMiniCard("EVENT\nSCHEDULE", AntDesign.calendar, () {
+                    Navigator.of(context).pushNamed(ScheduleScreen.routeName);
+                  }),
                   _getMiniCard("ABOUT\nQRIOSITY", AntDesign.questioncircle, () {
                     Navigator.of(context).pushNamed(AboutScreen.routeName);
                   }),

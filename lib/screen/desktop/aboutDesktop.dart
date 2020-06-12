@@ -21,7 +21,7 @@ class _AboutDesktopState extends State<AboutDesktop> {
           margin: EdgeInsets.all(10),
           padding: EdgeInsets.all(20),
           height: height,
-          width: width * 0.6,
+          width: width * 0.7,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             color: Colors.white,
@@ -196,18 +196,6 @@ class _AboutDesktopState extends State<AboutDesktop> {
                   height: 20,
                 ),
                 AutoSizeText(
-                  'About Developers',
-                  style: GoogleFonts.poppins(
-                    letterSpacing: 2,
-                    color: Colors.teal,
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(
-                  height: height * 0.02,
-                ),
-                AutoSizeText(
                   'Team',
                   style: GoogleFonts.poppins(
                     letterSpacing: 2,
@@ -234,8 +222,11 @@ class _AboutDesktopState extends State<AboutDesktop> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                SizedBox(
+                  height: height * 0.02,
+                ),
                 Row(
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     AutoSizeText(
                       'Contact Us : ',
@@ -246,17 +237,15 @@ class _AboutDesktopState extends State<AboutDesktop> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(
-                      width: width * 0.02,
-                    ),
                     GestureDetector(
                       onTap: () {
                         _launchURL('https://www.instagram.com/x_to_infinity/');
                       },
                       child: Image(
                         image: AssetImage('assets/images/instagram.png'),
-                        height: height * 0.01,
-                        width: width * 0.01,
+                        height: height * 0.034,
+                        width: height * 0.034,
+                        fit: BoxFit.contain,
                       ),
                     ),
                   ],
