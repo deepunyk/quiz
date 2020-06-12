@@ -19,7 +19,7 @@ class _ForgotPasswordDesktopState extends State<ForgotPasswordDesktop> {
         isLoad = true;
       });
       final response = await http.post(
-          "http://xtoinfinity.tech/quiz/php/sendMail.php", body:
+          "https://xtoinfinity.tech/quiz/php/sendMail.php", body:
       {
         'usn': usn.toUpperCase(),
       });
@@ -43,7 +43,7 @@ class _ForgotPasswordDesktopState extends State<ForgotPasswordDesktop> {
         actionsPadding: EdgeInsets.only(right: 15, bottom: 15),
         actions: [
           RaisedButton(
-            color: Colors.amber,
+            color: Theme.of(context).accentColor,
             onPressed: () {
               Navigator.of(context)
                   .pop();
@@ -74,7 +74,7 @@ class _ForgotPasswordDesktopState extends State<ForgotPasswordDesktop> {
           ),
           RaisedButton(
             child: Text(butText, style: TextStyle(color: Colors.white)),
-            color: Colors.amber,
+            color: Theme.of(context).accentColor,
             onPressed: () {
               Navigator.popUntil(context, (route) => route.isFirst);
             },
@@ -90,8 +90,9 @@ class _ForgotPasswordDesktopState extends State<ForgotPasswordDesktop> {
     final _mediaQuery = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
       body: Center(
-        child: isLoad?CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.amber),) :Card(
+        child: isLoad?CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).accentColor),) :Card(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           elevation: 8,
           child: Container(
@@ -100,7 +101,7 @@ class _ForgotPasswordDesktopState extends State<ForgotPasswordDesktop> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  color: Colors.amber,
+                  color: Theme.of(context).accentColor,
                   width: _mediaQuery.width*0.5,
                   padding: EdgeInsets.symmetric(vertical: 30),
                   alignment: Alignment.center,
@@ -117,7 +118,7 @@ class _ForgotPasswordDesktopState extends State<ForgotPasswordDesktop> {
                         width: 200,
                         child: TextField(
                           decoration: InputDecoration(hintText: "USN"),
-                          cursorColor: Colors.amber,
+                          cursorColor: Theme.of(context).accentColor,
                           onChanged: (val){
                             usn = val;
                           },
@@ -128,7 +129,7 @@ class _ForgotPasswordDesktopState extends State<ForgotPasswordDesktop> {
                       ),
                       RaisedButton(
                         child: Text("Recover password", style: GoogleFonts.poppins(color: Colors.white)),
-                        color: Colors.amber,
+                        color: Theme.of(context).accentColor,
                         onPressed: () {
                           sendEmail();
                         },

@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../dashboard.dart';
 import '../forgotPassword.dart';
@@ -17,13 +20,12 @@ class _LoginDesktopState extends State<LoginMobile> {
   bool isLoad = false;
 
   _checkLogin() async {
-    setState(() {
-      isLoad = true;
-    });
-    print("${usn.length}, ${password.length}");
     if (usn.length == 10 && password.length > 3) {
-      final response =
-      await http.post("http://xtoinfinity.tech/quiz/php/login.php", body: {
+      setState(() {
+        isLoad = true;
+      });
+      http.Response response =
+      await http.post("https://xtoinfinity.tech/quiz/php/login.php", body: {
         'usn': usn.toUpperCase(),
         'password': password,
       });
@@ -42,7 +44,7 @@ class _LoginDesktopState extends State<LoginMobile> {
           actionsPadding: EdgeInsets.only(right: 15, bottom: 15),
           actions: [
             RaisedButton(
-              color: Colors.amber,
+              color: Theme.of(context).accentColor,
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -58,6 +60,17 @@ class _LoginDesktopState extends State<LoginMobile> {
           },
         );
       } else {
+        final userJson = json.decode(response.body.toString().substring(0,response.body.toString().length-1));
+        final userData = userJson['user'];
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('name', userData[0]['name'].toString());
+        prefs.setString('usn', userData[0]['usn'].toString());
+        prefs.setString('sem', userData[0]['sem'].toString());
+        prefs.setString('section', userData[0]['section'].toString());
+        prefs.setString('email', userData[0]['email'].toString());
+        prefs.setString('password', userData[0]['password'].toString());
+        prefs.setString('branchId', userData[0]['branchId'].toString());
+        prefs.setString('profilepic', userData[0]['profilepic'].toString());
         Navigator.of(context).pushReplacementNamed(DashboardScreen.routeName);
       }
     } else {
@@ -71,7 +84,7 @@ class _LoginDesktopState extends State<LoginMobile> {
         actionsPadding: EdgeInsets.only(right: 15, bottom: 15),
         actions: [
           RaisedButton(
-            color: Colors.amber,
+            color: Theme.of(context).accentColor,
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -94,78 +107,107 @@ class _LoginDesktopState extends State<LoginMobile> {
     final _mediaQuery = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
       body: Center(
-        child:isLoad?CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.amber),) : Card(
-          shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          elevation: 8,
-          child: Container(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  color: Colors.amber,
-                  width: _mediaQuery.width*0.8,
-                  padding: EdgeInsets.symmetric(vertical: 30),
-                  alignment: Alignment.center,
-                  child: Text(
-                    "LOGIN",
-                    style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.w600),
-                  ),
+        child: isLoad?CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).accentColor),) :
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Image.asset("assets/images/logomed.png", height: _mediaQuery.height*0.1,),
+            Card(
+              shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+              elevation: 8,
+              child: Container(
+                width: _mediaQuery.width * 0.8,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      color: Theme.of(context).accentColor,
+                      padding: EdgeInsets.symmetric(vertical: 30),
+                      alignment: Alignment.center,
+                      child: Text(
+                        "LOGIN",
+                        style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            width: 200,
+                            child: TextField(
+                              decoration: InputDecoration(hintText: "USN"),
+                              cursorColor: Theme.of(context).accentColor,
+                              onChanged: (val) {
+                                usn = val;
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            width: 200,
+                            child: TextField(
+                              obscureText: true,
+                              decoration: InputDecoration(hintText: "Password"),
+                              cursorColor: Theme.of(context).accentColor,
+                              onChanged: (val) {
+                                password = val;
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          RaisedButton(
+                            child: Text("SUBMIT",
+                                style: GoogleFonts.poppins(color: Colors.white)),
+                            color: Theme.of(context).accentColor,
+                            onPressed: () {
+                              _checkLogin();
+                            },
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              style: DefaultTextStyle.of(context).style,
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: "* ",
+                                  style: GoogleFonts.poppins(
+                                      color: Theme.of(context).accentColor),
+                                ),
+                                TextSpan(
+                                  text: "Login credentials are same as that of SMVITM app",
+                                  style: GoogleFonts.poppins(
+                                      color: Colors.black, fontWeight: FontWeight.w300, fontSize: 10),
+                                ),
+                              ],
+                            ),
+                          ),
+                          FlatButton(
+                            onPressed: () {
+                              Navigator.of(context)
+                                  .pushNamed(ForgotPasswordScreen.routeName);
+                            },
+                            child: Text("Forgot Password",
+                                style: GoogleFonts.poppins(color: Theme.of(context).accentColor)),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 30),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        width: 200,
-                        child: TextField(
-                          decoration: InputDecoration(hintText: "USN"),
-                          cursorColor: Colors.amber,
-                          onChanged: (val) {
-                            usn = val;
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        width: 200,
-                        child: TextField(
-                          obscureText: true,
-                          decoration: InputDecoration(hintText: "Password"),
-                          cursorColor: Colors.amber,
-                          onChanged: (val) {
-                            password = val;
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      RaisedButton(
-                        child: Text("SUBMIT",
-                            style: GoogleFonts.poppins(color: Colors.white)),
-                        color: Colors.amber,
-                        onPressed: () {
-                          _checkLogin();
-                        },
-                      ),
-                      FlatButton(
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushNamed(ForgotPasswordScreen.routeName);
-                        },
-                        child: Text("Forgot Password",
-                            style: GoogleFonts.poppins(color: Colors.amber)),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

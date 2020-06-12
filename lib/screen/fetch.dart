@@ -1,35 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:quiz/screen/desktop/loginDesktop.dart';
-import 'package:quiz/screen/mobile/loginMobile.dart';
+import 'package:quiz/screen/desktop/fetchDesktop.dart';
+import 'package:quiz/screen/mobile/fetchMobile.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
-class LoginScreen extends StatefulWidget {
+class FetchScreen extends StatefulWidget {
 
-  static const routeName = 'login';
+  static const routeName = '/fetch';
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _FetchScreenState createState() => _FetchScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-
+class _FetchScreenState extends State<FetchScreen> {
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         body: ResponsiveBuilder(
             builder: (context, sizingInformation) {
-              // Check the sizing information here and return your UI
               if (sizingInformation.deviceScreenType ==
                   DeviceScreenType.desktop) {
-                return LoginDesktop();
+                return FetchDesktop();
               }
               if (sizingInformation.deviceScreenType ==
                   DeviceScreenType.mobile) {
-                return LoginMobile();
+                return FetchMobile();
               }
-              return LoginDesktop();
+              return FetchDesktop();
             }
         )
     );

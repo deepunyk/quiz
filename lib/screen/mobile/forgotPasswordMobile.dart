@@ -21,7 +21,7 @@ class _ForgotPasswordMobileState extends State<ForgotPasswordMobile> {
         isLoad = true;
       });
       final response = await http.post(
-          "http://xtoinfinity.tech/quiz/php/sendMail.php", body:
+          "https://xtoinfinity.tech/quiz/php/sendMail.php", body:
       {
         'usn': usn.toUpperCase(),
       });
@@ -45,7 +45,7 @@ class _ForgotPasswordMobileState extends State<ForgotPasswordMobile> {
         actionsPadding: EdgeInsets.only(right: 15, bottom: 15),
         actions: [
           RaisedButton(
-            color: Colors.amber,
+            color: Theme.of(context).accentColor,
             onPressed: () {
               Navigator.of(context)
                   .pop();
@@ -64,36 +64,37 @@ class _ForgotPasswordMobileState extends State<ForgotPasswordMobile> {
     }
   }
 
-  Widget sentWidget(){
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 30, horizontal: 40),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text("$res",),
-          SizedBox(
-            height: 30,
-          ),
-          RaisedButton(
-            child: Text(butText, style: TextStyle(color: Colors.white)),
-            color: Colors.amber,
-            onPressed: () {
-              Navigator.popUntil(context, (route) => route.isFirst);
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
 
     final _mediaQuery = MediaQuery.of(context).size;
+    Widget sentWidget(){
+      return Container(
+        width: _mediaQuery.width*0.8,
+        padding: EdgeInsets.symmetric(vertical: 30, horizontal: 40),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text("$res",),
+            SizedBox(
+              height: 30,
+            ),
+            RaisedButton(
+              child: Text(butText, style: TextStyle(color: Colors.white)),
+              color: Theme.of(context).accentColor,
+              onPressed: () {
+                Navigator.popUntil(context, (route) => route.isFirst);
+              },
+            ),
+          ],
+        ),
+      );
+    }
 
     return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
       body: Center(
-        child: Card(
+        child: isLoad?CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).accentColor),) :Card(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           elevation: 8,
           child: Container(
@@ -102,7 +103,7 @@ class _ForgotPasswordMobileState extends State<ForgotPasswordMobile> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  color: Colors.amber,
+                  color: Theme.of(context).accentColor,
                   width: _mediaQuery.width*0.8,
                   padding: EdgeInsets.symmetric(vertical: 30),
                   alignment: Alignment.center,
@@ -119,7 +120,7 @@ class _ForgotPasswordMobileState extends State<ForgotPasswordMobile> {
                         width: 200,
                         child: TextField(
                           decoration: InputDecoration(hintText: "USN"),
-                          cursorColor: Colors.amber,
+                          cursorColor: Theme.of(context).accentColor,
                           onChanged: (val){
                             usn = val;
                           },
@@ -130,7 +131,7 @@ class _ForgotPasswordMobileState extends State<ForgotPasswordMobile> {
                       ),
                       RaisedButton(
                         child: Text("Recover password", style: GoogleFonts.poppins(color: Colors.white)),
-                        color: Colors.amber,
+                        color: Theme.of(context).accentColor,
                         onPressed: () {
                           sendEmail();
                         },
