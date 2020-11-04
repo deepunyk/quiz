@@ -17,7 +17,7 @@ class _QuizDesktopState extends State<QuizDesktop> with SingleTickerProviderStat
   int _index = 0;
   Quizes _quizes;
   Timer _timer;
-  int _start = 10;
+  int _start = 15;
   int initialised = 0;
   double height = 0;
   double width = 0;
@@ -73,11 +73,10 @@ class _QuizDesktopState extends State<QuizDesktop> with SingleTickerProviderStat
   }
 
   void incrementCounter() {
-
     _timer.cancel();
     _index++;
     if (_quizes.quizes.length > _index) {
-      _start = 10;
+      _start = 15;
       startTimer();
       setState(() {
 
@@ -174,115 +173,117 @@ class _QuizDesktopState extends State<QuizDesktop> with SingleTickerProviderStat
 
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
-      body: Stack(
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                margin: EdgeInsets.only(bottom: _mediaQuery.height * 0.1),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).accentColor,
-                 shape: BoxShape.circle,
-                ),
-                padding: EdgeInsets.all(_mediaQuery.height * 0.05),
-                child: Text(_start.toString(), style: GoogleFonts.poppins(
-                    fontSize: 30,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white),),
-              ),
-              Card(
-                margin: EdgeInsets.only(bottom: _mediaQuery.height * 0.05),
-                elevation: 8,
-                shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                      vertical: _mediaQuery.height * 0.05,
-                      horizontal: _mediaQuery.width * 0.05),
-                  width: _mediaQuery.width * 0.8,
-                  alignment: Alignment.center,
-                  child: Text(
-                    _quizes.quizes[_index].question,
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w500, fontSize: 25),
-                  ),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _getCard(_quizes.quizes[_index].ansOne),
-                  SizedBox(
-                    width: _mediaQuery.width * 0.06,
-                  ),
-                  _getCard(_quizes.quizes[_index].ansTwo),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _getCard(_quizes.quizes[_index].ansThree),
-                  SizedBox(
-                    width: _mediaQuery.width * 0.06,
-                  ),
-                  _getCard(_quizes.quizes[_index].ansFour),
-                ],
-              )
-            ],
-          ),
-          AnimatedBuilder(
-            builder: ((context, child)=>CustomPaint(
-              painter: TrianglePainter(
-                  strokeColor: Theme.of(context).accentColor,
-                  strokeWidth: 0,
-                  paintingStyle: PaintingStyle.fill,
-                  mHeight: _mediaQuery.height,
-                  mWidth: _mediaQuery.width,
-                  direction: 0,
-                  tempHeight: _animation.value.height,
-                  tempWidth: _animation.value.width),
-            )),
-            animation: _animation,
-          ),
-          AnimatedBuilder(
-            builder: ((context, child)=>CustomPaint(
-              painter: TrianglePainter(
-                  strokeColor: Theme.of(context).accentColor,
-                  strokeWidth: 0,
-                  paintingStyle: PaintingStyle.fill,
-                  mHeight: _mediaQuery.height,
-                  mWidth: _mediaQuery.width,
-                  direction: 1,
-                  tempHeight: _animation.value.height,
-                  tempWidth: _animation.value.width),
-            )),
-            animation: _animation,
-          ),
-          isLoad == 0? countWidget(): Container(),
-          isLoad == 0?Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(margin: EdgeInsets.only(bottom: _mediaQuery.height*0.2),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "Developed By",
-                    style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w700, color: Colors.white, fontSize: 16),
-                  ),
-                  Text(
-                    "X to INFINITY",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500, color: Colors.white, fontFamily: 'Vampire', fontSize: 22),
-                  ),
-                ],
-              ),
-            ),
-          ):Container(),
-        ],
-      ),
-    );
+      body: Container(),);
   }
 }
+
+//Stack(
+//children: [
+//Column(
+//mainAxisAlignment: MainAxisAlignment.center,
+//children: [
+//Container(
+//margin: EdgeInsets.only(bottom: _mediaQuery.height * 0.1),
+//decoration: BoxDecoration(
+//color: Theme.of(context).accentColor,
+//shape: BoxShape.circle,
+//),
+//padding: EdgeInsets.all(_mediaQuery.height * 0.05),
+//child: Text(_start.toString(), style: GoogleFonts.poppins(
+//fontSize: 30,
+//fontWeight: FontWeight.w700,
+//color: Colors.white),),
+//),
+//Card(
+//margin: EdgeInsets.only(bottom: _mediaQuery.height * 0.05),
+//elevation: 8,
+//shape:
+//RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+//child: Container(
+//padding: EdgeInsets.symmetric(
+//vertical: _mediaQuery.height * 0.05,
+//horizontal: _mediaQuery.width * 0.05),
+//width: _mediaQuery.width * 0.8,
+//alignment: Alignment.center,
+//child: Text(
+//_quizes.quizes[_index].question,
+//textAlign: TextAlign.center,
+//style: GoogleFonts.poppins(
+//fontWeight: FontWeight.w500, fontSize: 25),
+//),
+//),
+//),
+//Row(
+//mainAxisAlignment: MainAxisAlignment.center,
+//children: [
+//_getCard(_quizes.quizes[_index].ansOne),
+//SizedBox(
+//width: _mediaQuery.width * 0.06,
+//),
+//_getCard(_quizes.quizes[_index].ansTwo),
+//],
+//),
+//Row(
+//mainAxisAlignment: MainAxisAlignment.center,
+//children: [
+//_getCard(_quizes.quizes[_index].ansThree),
+//SizedBox(
+//width: _mediaQuery.width * 0.06,
+//),
+//_getCard(_quizes.quizes[_index].ansFour),
+//],
+//)
+//],
+//),
+//AnimatedBuilder(
+//builder: ((context, child)=>CustomPaint(
+//painter: TrianglePainter(
+//strokeColor: Theme.of(context).accentColor,
+//strokeWidth: 0,
+//paintingStyle: PaintingStyle.fill,
+//mHeight: _mediaQuery.height,
+//mWidth: _mediaQuery.width,
+//direction: 0,
+//tempHeight: _animation.value.height,
+//tempWidth: _animation.value.width),
+//)),
+//animation: _animation,
+//),
+//AnimatedBuilder(
+//builder: ((context, child)=>CustomPaint(
+//painter: TrianglePainter(
+//strokeColor: Theme.of(context).accentColor,
+//strokeWidth: 0,
+//paintingStyle: PaintingStyle.fill,
+//mHeight: _mediaQuery.height,
+//mWidth: _mediaQuery.width,
+//direction: 1,
+//tempHeight: _animation.value.height,
+//tempWidth: _animation.value.width),
+//)),
+//animation: _animation,
+//),
+//isLoad == 0? countWidget(): Container(),
+//isLoad == 0?Align(
+//alignment: Alignment.bottomCenter,
+//child: Container(margin: EdgeInsets.only(bottom: _mediaQuery.height*0.2),
+//child: Column(
+//mainAxisSize: MainAxisSize.min,
+//children: [
+//Text(
+//"Developed By",
+//style: GoogleFonts.poppins(
+//fontWeight: FontWeight.w700, color: Colors.white, fontSize: 16),
+//),
+//Text(
+//"X to INFINITY",
+//style: TextStyle(
+//fontWeight: FontWeight.w500, color: Colors.white, fontFamily: 'Vampire', fontSize: 22),
+//),
+//],
+//),
+//),
+//):Container(),
+//],
+//),
+//);

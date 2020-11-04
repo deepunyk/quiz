@@ -1,10 +1,10 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:quiz/screen/dashboard.dart';
 import 'package:quiz/screen/fetch.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RulesDesktop extends StatefulWidget {
-
   @override
   _RulesDesktopState createState() => _RulesDesktopState();
 }
@@ -17,6 +17,14 @@ class _RulesDesktopState extends State<RulesDesktop> {
     final _mediaQuery = MediaQuery.of(context).size;
 
     quiz = ModalRoute.of(context).settings.arguments;
+
+    _launchURL() async {
+      if (await canLaunch(quiz['masterLink'])) {
+        await launch(quiz['masterLink']);
+      } else {
+        throw 'Could not launch ${quiz['masterLink']}';
+      }
+    }
 
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
@@ -32,6 +40,35 @@ class _RulesDesktopState extends State<RulesDesktop> {
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
                   fontSize: 35),
+            ),
+            Container(
+              width: _mediaQuery.width * 0.8,
+              alignment: Alignment.bottomRight,
+              child: RichText(
+                textAlign: TextAlign.right,
+                text: TextSpan(
+                    style: DefaultTextStyle.of(context).style,
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: "Quiz created by: ",
+                        style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 21,
+                        ),
+                      ),
+                      TextSpan(
+                        text: "${quiz['master']}",
+                        style: GoogleFonts.poppins(
+                          color: Theme.of(context).accentColor,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 21,
+                          decoration: TextDecoration.underline
+                        ),
+                        recognizer: new TapGestureRecognizer()..onTap = () => _launchURL(),
+                      ),
+                    ]),
+              ),
             ),
             SizedBox(
               height: _mediaQuery.height * 0.02,
@@ -98,7 +135,8 @@ class _RulesDesktopState extends State<RulesDesktop> {
                             child: Text(
                               "BACK",
                               style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w500, color: Colors.white),
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white),
                             ),
                             onPressed: () {
                               Navigator.of(context).pop();
@@ -112,11 +150,13 @@ class _RulesDesktopState extends State<RulesDesktop> {
                             child: Text(
                               "LETS GO!",
                               style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w500, color: Colors.white),
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white),
                             ),
                             onPressed: () {
-                              Navigator.of(context)
-                                  .pushReplacementNamed(FetchScreen.routeName, arguments: quiz);
+                              Navigator.of(context).pushReplacementNamed(
+                                  FetchScreen.routeName,
+                                  arguments: quiz);
                             },
                             color: Theme.of(context).accentColor,
                           ),

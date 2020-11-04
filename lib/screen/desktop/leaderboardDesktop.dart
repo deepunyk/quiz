@@ -20,17 +20,19 @@ class _LeaderboardDesktopState extends State<LeaderboardDesktop> {
   Future getLeaderBoardData() async {
     http.Response response = await http
         .post('https://xtoinfinity.tech/quiz/php/getLeaderboardData.php');
-    print(response.body.substring(0, response.body.length - 1));
-    if (response.body.toString() == 'no quiz') {
+    if (response.body.toString() == 'no quiz;') {
+      isLoad = false;
       list = null;
       stackIndex = 1;
+      setState(() {
+
+      });
     } else {
       data = json.decode(response.body.substring(0, response.body.length - 1));
       setState(() {
         list = data['points'];
         isLoad = false;
       });
-      print(list.toString());
     }
   }
 
@@ -212,13 +214,19 @@ class _LeaderboardDesktopState extends State<LeaderboardDesktop> {
               ),
             ],
           ),
-          Center(
-            child: Image(
-              image: AssetImage('assets/images/nodata.png'),
-              height: height * 0.8,
-              width: width * 0.6,
-              fit: BoxFit.contain,
-            ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image(
+                image: AssetImage('assets/images/nodata.png'),
+                height: height * 0.8,
+                width: width * 0.6,
+                fit: BoxFit.contain,
+              ),
+              SizedBox(width: double.infinity,height: _mediaQuery.height*0.1,),
+              Text("Leaderboard is Empty", style: GoogleFonts.poppins(fontSize: 24, color: Colors.white, fontWeight: FontWeight.w600),),
+            ],
           ),
         ],
       ),

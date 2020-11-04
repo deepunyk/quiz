@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -36,7 +34,6 @@ class _FetchMobileState extends State<FetchMobile> {
   @override
   Widget build(BuildContext context) {
 
-    final _mediaQuery = MediaQuery.of(context).size;
     _quizes = Provider.of<Quizes>(context);
     quiz = ModalRoute.of(context).settings.arguments;
 

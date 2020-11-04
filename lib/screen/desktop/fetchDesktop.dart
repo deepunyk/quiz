@@ -1,14 +1,9 @@
-import 'dart:async';
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:quiz/providers/quizes.dart';
-import 'package:quiz/screen/desktop/quizDesktop.dart';
 import 'package:quiz/screen/quiz.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 
 class FetchDesktop extends StatefulWidget {
   @override

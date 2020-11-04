@@ -18,7 +18,7 @@ class _QuizMobileState extends State<QuizMobile> with SingleTickerProviderStateM
   int _index = 0;
   Quizes _quizes;
   Timer _timer;
-  int _start = 10;
+  int _start = 15;
   int initialised = 0;
   double height = 0;
   double width = 0;
@@ -74,11 +74,10 @@ class _QuizMobileState extends State<QuizMobile> with SingleTickerProviderStateM
   }
 
   void incrementCounter() {
-
     _timer.cancel();
     _index++;
     if (_quizes.quizes.length > _index) {
-      _start = 10;
+      _start = 15;
       startTimer();
       setState(() {
 

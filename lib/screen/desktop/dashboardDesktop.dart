@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quiz/screen/about.dart';
-import 'package:quiz/screen/fetch.dart';
+import 'package:quiz/screen/gameAbout.dart';
 import 'package:quiz/screen/leaderboard.dart';
-import 'package:quiz/screen/rules.dart';
 import 'package:quiz/screen/schedule.dart';
 import 'package:quiz/screen/selectQuiz.dart';
 import 'package:quiz/screen/userProfile.dart';
@@ -20,21 +19,12 @@ class DashboardDesktop extends StatefulWidget {
 class _DashboardDesktopState extends State<DashboardDesktop> {
   SharedPreferences prefs;
   String name = "";
-  int _select = 0;
   var myGroup = AutoSizeGroup();
-
-  _getData() async {
-    prefs = await SharedPreferences.getInstance();
-    print(prefs.getString('name'));
-    name = prefs.getString('name');
-    setState(() {});
-  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _getData();
   }
 
   @override
@@ -51,6 +41,10 @@ class _DashboardDesktopState extends State<DashboardDesktop> {
             Image.asset(
               "assets/images/logomed.png",
               height: _mediaQuery.height * 0.1,
+            ),
+            Text(
+              "v1.0.1.0",
+              style: GoogleFonts.poppins(color: Colors.white),
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -182,7 +176,8 @@ class _DashboardDesktopState extends State<DashboardDesktop> {
                       child: InkWell(
                         hoverColor: Color(0x333BC0B0),
                         onTap: () {
-                          Navigator.of(context).pushNamed(SelectQuiz.routeName);
+                          Navigator.of(context)
+                              .pushNamed(GameAboutScreen.routeName);
                         },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:quiz/models/quiz.dart';
 import 'package:quiz/providers/quizes.dart';
 import 'package:quiz/screen/dashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -123,7 +122,7 @@ class _FinishDesktopState extends State<FinishDesktop> {
                           ),
                           TextSpan(
                             text:
-                            "from that ${(_quizes.getPoint())/10} answers are correct",
+                            _quizes.getPoint() == 0 ?"from that 0 answers are correct": "from that ${(_quizes.getPoint())/10} answers are correct",
                             style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 12,
@@ -140,7 +139,7 @@ class _FinishDesktopState extends State<FinishDesktop> {
               elevation: 8,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
               onPressed: () {
-                Navigator.of(context).popUntil((route) => route.isFirst);
+                Navigator.of(context).pushNamedAndRemoveUntil(DashboardScreen.routeName, (route) => false);
               },
               child: Text(
                 "BACK",

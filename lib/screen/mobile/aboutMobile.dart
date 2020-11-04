@@ -44,7 +44,7 @@ class _AboutMobileState extends State<AboutMobile> {
                 ),
                 AutoSizeText(
                   'Qriosity is an online platform to conduct competitions for SMVITM students.'
-                  ' First week will be quiz which is conducted in association with ISTE student chapter of SMVITM.',
+                  ' First competition is set of quiz conducted in association with ISTE student chapter of SMVITM. 7 days, 7 themes, 21 quiz. From 13/06/2020 to 19/06/2020',
                   style: GoogleFonts.roboto(
                     letterSpacing: 1,
                     color: Colors.blueGrey[900],
@@ -85,30 +85,7 @@ class _AboutMobileState extends State<AboutMobile> {
                   textAlign: TextAlign.start,
                 ),
                 AutoSizeText(
-                  'Based on the score at the end of the quiz winners will be decided.',
-                  style: GoogleFonts.roboto(
-                    letterSpacing: 1,
-                    color: Colors.blueGrey[900],
-                    fontSize: 14,
-                  ),
-                  textAlign: TextAlign.start,
-                ),
-                SizedBox(
-                  height: height * 0.02,
-                ),
-                AutoSizeText(
-                  'Will I get certificates?',
-                  style: GoogleFonts.roboto(
-                    letterSpacing: 1,
-                    color: Colors.teal,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.start,
-                ),
-                AutoSizeText(
-                  'Certificate of merit will be given to the winners on ISTE annual day. '
-                  'Participation certificates will be mailed to your sode-edu mail ID. ',
+                  'Top 10 students at the end of the week with the highest points will be declared as the winner.',
                   style: GoogleFonts.roboto(
                     letterSpacing: 1,
                     color: Colors.blueGrey[900],
@@ -152,7 +129,7 @@ class _AboutMobileState extends State<AboutMobile> {
                   textAlign: TextAlign.start,
                 ),
                 AutoSizeText(
-                  'I have attempted the quiz but its showing 0 in leaderboard.'
+                  'I have attempted the quiz but its showing 0 in leaderboard. '
                   'Please wait for the website to calculate and display your final result before you close it. If you close or minimize the website during quiz, you will be scored 0.',
                   style: GoogleFonts.roboto(
                     letterSpacing: 1,
@@ -175,8 +152,8 @@ class _AboutMobileState extends State<AboutMobile> {
                   textAlign: TextAlign.start,
                 ),
                 AutoSizeText(
-                  'My friend is having trouble signing in.'
-                  'We have dropped our contact links below. Tell your friend to contact us. We will fix it.',
+                  'If your classmate is having trouble signing in, '
+                  'we have dropped our contact links below. Tell your friend to contact us. We will fix it.',
                   style: GoogleFonts.roboto(
                     letterSpacing: 1,
                     color: Colors.blueGrey[900],

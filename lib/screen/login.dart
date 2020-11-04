@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:quiz/screen/desktop/loginDesktop.dart';
 import 'package:quiz/screen/mobile/loginMobile.dart';
 import 'package:responsive_builder/responsive_builder.dart';

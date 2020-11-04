@@ -131,13 +131,15 @@ class _UserProfileDesktopState extends State<UserProfileDesktop> {
       case '100':
         p = 10;
         break;
+      default:
+        p = 0;
     }
     return p;
   }
 
   void _logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove('name');
+    prefs.clear();
     Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
   }
 
@@ -461,13 +463,15 @@ class _UserProfileDesktopState extends State<UserProfileDesktop> {
               SizedBox(
                 height: height * 0.02,
               ),
-              ListView.builder(
-                itemCount: list == null ? 0 : list.length,
-                itemBuilder: (ctx, index) {
-                  return stat(index);
-                },
-                shrinkWrap: true,
-                physics: BouncingScrollPhysics(),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: list == null ? 0 : list.length,
+                  itemBuilder: (ctx, index) {
+                    return stat(index);
+                  },
+                  shrinkWrap: true,
+                  physics: BouncingScrollPhysics(),
+                ),
               )
             ],
           ),

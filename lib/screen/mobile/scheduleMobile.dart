@@ -57,9 +57,19 @@ class _ScheduleMobileState extends State<ScheduleMobile> {
                 list[index]['name'],
                 maxLines: 1,
                 style: GoogleFonts.poppins(
-                  fontSize: 20,
+                    fontSize: 20,
+                    letterSpacing: 1,
+                    color: Colors.teal,
+                    fontWeight: FontWeight.w600
+                ),
+              ),
+              AutoSizeText(
+                "Theme: ${list[index]['theme']}",
+                maxLines: 1,
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
                   letterSpacing: 1,
-                  color: Colors.teal,
+                  color: Colors.black,
                 ),
               ),
               SizedBox(

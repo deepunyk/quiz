@@ -15,21 +15,24 @@ class _LeaderboardMobileState extends State<LeaderboardMobile> {
   Map data;
   List list;
   int stackIndex = 0;
+  bool isLoad = true;
 
   Future getLeaderBoardData() async {
     http.Response response = await http
         .post('https://xtoinfinity.tech/quiz/php/getLeaderboardData.php');
-    print(response.body.substring(0, response.body.length - 1));
-    if (response.body.toString() == 'no quiz') {
+    if (response.body.toString() == 'no quiz;') {
+      isLoad = false;
       list = null;
-      stackIndex = 2;
+      stackIndex = 1;
+      setState(() {
+
+      });
     } else {
       data = json.decode(response.body.substring(0, response.body.length - 1));
       setState(() {
         list = data['points'];
-        stackIndex = 1;
+        isLoad = false;
       });
-      print(list.toString());
     }
   }
 
@@ -127,9 +130,7 @@ class _LeaderboardMobileState extends State<LeaderboardMobile> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-
     final _mediaQuery = MediaQuery.of(context).size;
-
     Widget loadWidget() {
       return Container(
         width: double.infinity,
@@ -153,10 +154,9 @@ class _LeaderboardMobileState extends State<LeaderboardMobile> {
         decoration: BoxDecoration(
           color: Colors.blueGrey[900],
         ),
-        child: IndexedStack(
+        child: isLoad ? loadWidget(): IndexedStack(
           index: stackIndex,
           children: [
-            loadWidget(),
             Column(
               children: [
                 Row(
@@ -200,13 +200,19 @@ class _LeaderboardMobileState extends State<LeaderboardMobile> {
                 ),
               ],
             ),
-            Center(
-              child: Image(
-                image: AssetImage('assets/images/nodata.png'),
-                height: height * 0.8,
-                width: width * 0.6,
-                fit: BoxFit.contain,
-              ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image(
+                  image: AssetImage('assets/images/nodata.png'),
+                  height: height * 0.8,
+                  width: width * 0.6,
+                  fit: BoxFit.contain,
+                ),
+                SizedBox(width: double.infinity,height: _mediaQuery.height*0.1,),
+                Text("Leaderboard is Empty", style: GoogleFonts.poppins(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600),),
+              ],
             ),
           ],
         ));

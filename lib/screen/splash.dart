@@ -1,9 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:quiz/painter/triangleSplash.dart';
 import 'package:quiz/screen/dashboard.dart';
 import 'package:quiz/screen/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';

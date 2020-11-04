@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:quiz/providers/quizes.dart';
 import 'package:quiz/screen/desktop/dashboardDesktop.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'mobile/dashboardMobile.dart';
 
@@ -15,8 +16,14 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
 
+  Quizes _quizes;
+
   @override
   Widget build(BuildContext context) {
+
+    _quizes = Provider.of<Quizes>(context);
+
+    _quizes.clearArray();
 
     return Scaffold(
         body: ResponsiveBuilder(

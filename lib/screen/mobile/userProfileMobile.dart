@@ -131,13 +131,15 @@ class _UserProfileMobileState extends State<UserProfileMobile> {
       case '100':
         p = 10;
         break;
+      default:
+        p = 0;
     }
     return p;
   }
 
   void _logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove('name');
+    prefs.clear();
     Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
   }
 
@@ -374,26 +376,29 @@ class _UserProfileMobileState extends State<UserProfileMobile> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      AutoSizeText(
-                        name.toString(),
-                        style: GoogleFonts.poppins(
-                            letterSpacing: 2,
-                            color: Colors.teal,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      AutoSizeText(
-                        usn.toString(),
-                        style: GoogleFonts.poppins(
-                          letterSpacing: 1,
-                          color: Colors.blueGrey[900],
-                          fontSize: 18,
+                  Container(
+                    width: width*0.4,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AutoSizeText(
+                          name.toString(),
+                          style: GoogleFonts.poppins(
+                              letterSpacing: 2,
+                              color: Colors.teal,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold),
                         ),
-                      ),
-                    ],
+                        AutoSizeText(
+                          usn.toString(),
+                          style: GoogleFonts.poppins(
+                            letterSpacing: 1,
+                            color: Colors.blueGrey[900],
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -461,13 +466,15 @@ class _UserProfileMobileState extends State<UserProfileMobile> {
               SizedBox(
                 height: height * 0.02,
               ),
-              ListView.builder(
-                itemCount: list == null ? 0 : list.length,
-                itemBuilder: (ctx, index) {
-                  return stat(index);
-                },
-                shrinkWrap: true,
-                physics: BouncingScrollPhysics(),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: list == null ? 0 : list.length,
+                  itemBuilder: (ctx, index) {
+                    return stat(index);
+                  },
+                  shrinkWrap: true,
+                  physics: BouncingScrollPhysics(),
+                ),
               )
             ],
           ),

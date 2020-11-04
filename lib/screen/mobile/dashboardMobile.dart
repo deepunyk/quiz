@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quiz/screen/about.dart';
-import 'package:quiz/screen/rules.dart';
+import 'package:quiz/screen/game.dart';
 import 'package:quiz/screen/schedule.dart';
 import 'package:quiz/screen/userProfile.dart';
 
@@ -95,14 +95,14 @@ class _DashboardMobileState extends State<DashboardMobile> {
                         style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w400,
                             color: Colors.black,
-                            fontSize: 14,
+                            fontSize: 13,
                             shadows: [
                               Shadow(
                                 color: Theme.of(context).accentColor,
                                 blurRadius: 1,
                               )
                             ]),
-                        maxLines: 2,
+                        maxLines: title == "LEADERBOARD"?1:2,
                       ),
                     ),
                     Icon(
@@ -130,11 +130,12 @@ class _DashboardMobileState extends State<DashboardMobile> {
               "assets/images/logomed.png",
               height: _mediaQuery.height * 0.1,
             ),
+            Text("v1.0.1.0", style: GoogleFonts.poppins(color: Colors.white),),
             SizedBox(
               height: _mediaQuery.height * 0.1,
             ),
             _getCard("PLAY", AntDesign.play, () {
-              Navigator.of(context).pushNamed(SelectQuiz.routeName);
+              Navigator.of(context).pushNamed(GameScreen.routeName);
             }),
             SizedBox(
               height: _mediaQuery.height * 0.05,

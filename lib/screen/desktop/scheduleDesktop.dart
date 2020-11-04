@@ -4,7 +4,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:quiz/screen/profile.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ScheduleDesktop extends StatefulWidget {
@@ -71,6 +70,16 @@ class _ScheduleDesktopState extends State<ScheduleDesktop> {
                   fontSize: 20,
                   letterSpacing: 1,
                   color: Colors.teal,
+                  fontWeight: FontWeight.w600
+                ),
+              ),
+              AutoSizeText(
+                "Theme: ${list[index]['theme']}",
+                maxLines: 1,
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                  letterSpacing: 1,
+                  color: Colors.black,
                 ),
               ),
               SizedBox(

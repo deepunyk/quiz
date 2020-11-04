@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
@@ -186,13 +185,15 @@ class _ProfileDesktopState extends State<ProfileDesktop> {
               SizedBox(
                 height: height * 0.02,
               ),
-              ListView.builder(
-                itemCount: list == null ? 0 : list.length,
-                itemBuilder: (ctx, index) {
-                  return stat(index);
-                },
-                shrinkWrap: true,
-                physics: BouncingScrollPhysics(),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: list == null ? 0 : list.length,
+                  itemBuilder: (ctx, index) {
+                    return stat(index);
+                  },
+                  shrinkWrap: true,
+                  physics: BouncingScrollPhysics(),
+                ),
               )
             ],
           ),

@@ -6,6 +6,8 @@ import 'package:quiz/screen/dashboard.dart';
 import 'package:quiz/screen/fetch.dart';
 import 'package:quiz/screen/finish.dart';
 import 'package:quiz/screen/forgotPassword.dart';
+import 'package:quiz/screen/game.dart';
+import 'package:quiz/screen/gameAbout.dart';
 import 'package:quiz/screen/leaderboard.dart';
 import 'package:quiz/screen/login.dart';
 import 'package:quiz/screen/quiz.dart';
@@ -36,7 +38,7 @@ class MyApp extends StatelessWidget {
           accentColor: Color(0xff3BC0B0),
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: WelcomeScreen(),
+        home: SplashScreen(),
         routes: {
           DashboardScreen.routeName: (ctx) => DashboardScreen(),
           ForgotPasswordScreen.routeName: (ctx) => ForgotPasswordScreen(),
@@ -52,6 +54,8 @@ class MyApp extends StatelessWidget {
           AboutScreen.routeName: (ctx) => AboutScreen(),
           ScheduleScreen.routeName: (ctx) => ScheduleScreen(),
           WelcomeScreen.routeName: (ctx) => WelcomeScreen(),
+          GameAboutScreen.routeName: (ctx) => GameAboutScreen(),
+          GameScreen.routeName: (ctx) => GameScreen(),
         },
       ),
     );

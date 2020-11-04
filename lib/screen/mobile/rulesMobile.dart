@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/gestures.dart';
 
-import '../dashboard.dart';
 import '../fetch.dart';
 
 class RulesMobile extends StatefulWidget {
@@ -10,7 +11,6 @@ class RulesMobile extends StatefulWidget {
 }
 
 class _RulesMobileState extends State<RulesMobile> {
-
   Map quiz;
 
   @override
@@ -18,6 +18,14 @@ class _RulesMobileState extends State<RulesMobile> {
     final _mediaQuery = MediaQuery.of(context).size;
 
     quiz = ModalRoute.of(context).settings.arguments;
+
+    _launchURL() async {
+      if (await canLaunch(quiz['masterLink'])) {
+        await launch(quiz['masterLink']);
+      } else {
+        throw 'Could not launch ${quiz['masterLink']}';
+      }
+    }
 
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
@@ -33,6 +41,37 @@ class _RulesMobileState extends State<RulesMobile> {
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
                   fontSize: 25),
+            ),
+            SizedBox(
+              height: _mediaQuery.height * 0.01,
+            ),
+            Container(
+              width: _mediaQuery.width * 0.8,
+              child: RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                    style: DefaultTextStyle.of(context).style,
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: "Quiz created by: ",
+                        style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18,
+                        ),
+                      ),
+                      TextSpan(
+                        text: "${quiz['master']}",
+                        style: GoogleFonts.poppins(
+                            color: Theme.of(context).accentColor,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18,
+                            decoration: TextDecoration.underline,
+                        ),
+                        recognizer: new TapGestureRecognizer()..onTap = () => _launchURL(),
+                      ),
+                    ]),
+              ),
             ),
             SizedBox(
               height: _mediaQuery.height * 0.02,
@@ -69,7 +108,7 @@ class _RulesMobileState extends State<RulesMobile> {
                                       color: Theme.of(context).accentColor)),
                               TextSpan(
                                   text:
-                                  "You can try to break this website now, since it is in beta phase.\n",
+                                      "You can try to break this website now, since it is in beta phase.\n",
                                   style: GoogleFonts.poppins(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 14,
@@ -82,7 +121,7 @@ class _RulesMobileState extends State<RulesMobile> {
                                       color: Theme.of(context).accentColor)),
                               TextSpan(
                                   text:
-                                  "If you do, don't forget to tell us how you did it.",
+                                      "If you do, don't forget to tell us how you did it.",
                                   style: GoogleFonts.poppins(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 14,
@@ -99,7 +138,8 @@ class _RulesMobileState extends State<RulesMobile> {
                             child: Text(
                               "BACK",
                               style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w500, color: Colors.white),
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white),
                             ),
                             onPressed: () {
                               Navigator.of(context).pop();
@@ -113,11 +153,13 @@ class _RulesMobileState extends State<RulesMobile> {
                             child: Text(
                               "LETS GO!",
                               style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w500, color: Colors.white),
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white),
                             ),
                             onPressed: () {
-                              Navigator.of(context)
-                                  .pushReplacementNamed(FetchScreen.routeName, arguments: quiz);
+                              Navigator.of(context).pushReplacementNamed(
+                                  FetchScreen.routeName,
+                                  arguments: quiz);
                             },
                             color: Theme.of(context).accentColor,
                           ),
